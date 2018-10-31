@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <title>Edmonton Census Data</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="libs/keen_io/keen-dashboards.css">
+    <link rel="stylesheet" href="libs/dc/dc.min.css">
+    <link rel="stylesheet" href="libs/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="libs/dc_addons/dc-leaflet-legend.css">
+    <link rel="stylesheet" href="css/infractions.css">
+    <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.js">
+    <link rel="stylesheet" href="libs/keen_io/keen.min.js">
+</head>
+<body class="application">
+    <!-- Navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="https://github.com/tyleracorn/yeg_census_neighbourhoods/blob/master/README.md#edmonton_census_dashboard">Edmonton's Census Data</a>
+            </div>
+        </div>
+    </div>
+    <!-- Makes Row Responsive -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- column 1 for row -->
+            <div class="col-sm-4">
+                <!-- row in column 1 -->
+                <div class="row">
+                    <!-- Selection Options -->
+                    <div class="col-sm-12">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">Neighbourhood Selection</div>
+                            <div class="chart-stage">
+                                <div style="width: 400px; height: 220px">
+                                    <p id="records-count"></p>
+                                    <div id="select-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- column 2 for row -->
+            <div class="col-sm-4">
+                <!-- row in column 2 -->
+                <div class="row">
+                    <!-- Pie Chart -->
+                    <div class="col-sm-12">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">Percentage of Households in Income Brackets</div>
+                            <div class="chart-stage">
+                                <div id="pie-plot" style="width: 400px; height: 220px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- column 3 for row -->
+            <div class="col-sm-4">
+                <!-- row in column 3 -->
+                <div class="row">
+                    <!-- Leaflet -->
+                    <div class="col-sm-12">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">Neighbourhoods Map</div>
+                            <div class="chart-stage">
+                                <div id="map-plot" style="width: 400px; height: 400px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Total Display -->
+                    <div class="col-sm-12">
+                        <div class="chart-wrapper">
+                            <div class="chart-title">Number of Households Recorded</div>
+                            <div class="chart-stage">
+                                <div style="width: 400px; height: 70px;">
+                                    <div id="number-stat"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="libs/crossfilter/crossfilter.min.js"></script>
+    <script src="libs/d3/d3.min.js"></script>
+    <script src="libs/leaflet/dist/leaflet.js"></script>
+    <script src="libs/dc/dc.min.js"></script>
+    <script src="libs/dc_addons/base-map-chart.js"></script>
+    <script src="libs/dc_addons/base-leaflet-chart.js"></script>
+    <script src="libs/dc_addons/leaflet-marker-chart.js"></script>
+    <script src="libs/dc_addons/leaflet-choropleth-chart.js"></script>
+    <script src="libs/dc_addons/bubble-cloud.js"></script>
+    <script src="libs/dc_addons/leaflet-legend.js"></script>
+    <script src="js/infractions.js"></script>
+</body>
+</html>
