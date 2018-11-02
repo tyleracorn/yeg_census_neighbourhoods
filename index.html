@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Edmonton Census Data</title>
+    <title>Edmonton Household Income</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="libs/keen_io/keen-dashboards.css">
@@ -17,7 +17,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="https://github.com/tyleracorn/yeg_census_neighbourhoods/blob/master/README.md#edmonton_census_dashboard">Edmonton's Census Data</a>
+                <a class="navbar-brand" href="https://github.com/tyleracorn/yeg_census_neighbourhoods/blob/master/README.md#edmonton_census_dashboard">2016 Census Data for Edmonton: Household Income</a>
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
                         <div class="chart-wrapper">
                             <div class="chart-title">Neighbourhood Selection</div>
                             <div class="chart-stage">
-                                <div style="width: 400px; height: 220px">
+                                <div style="width: 200px; height: 220px">
                                     <p id="records-count"></p>
                                     <div id="select-container"></div>
                                 </div>
@@ -49,9 +49,9 @@
                     <!-- Pie Chart -->
                     <div class="col-sm-12">
                         <div class="chart-wrapper">
-                            <div class="chart-title">Percentage of Households in Income Brackets</div>
+                            <div class="chart-title">2016 Census Income Brackets</div>
                             <div class="chart-stage">
-                                <div id="pie-plot" style="width: 400px; height: 220px"></div>
+                                <div id="pie-plot" style="width: 600px; height: 200px"></div>
                             </div>
                         </div>
                     </div>
@@ -67,17 +67,6 @@
                             <div class="chart-title">Neighbourhoods Map</div>
                             <div class="chart-stage">
                                 <div id="map-plot" style="width: 400px; height: 400px"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Total Display -->
-                    <div class="col-sm-12">
-                        <div class="chart-wrapper">
-                            <div class="chart-title">Number of Households Recorded</div>
-                            <div class="chart-stage">
-                                <div style="width: 400px; height: 70px;">
-                                    <div id="number-stat"></div>
-                                </div>
                             </div>
                         </div>
                     </div>
