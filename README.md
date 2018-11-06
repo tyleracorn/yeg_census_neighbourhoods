@@ -1,4 +1,5 @@
 # Edmonton Census Insights by Neighbourhood
+![](dashboard_preview.gif)
 
 There are two main goals for this project.
 
