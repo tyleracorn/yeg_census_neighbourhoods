@@ -13,7 +13,7 @@ d3.json("data/NCensus_Income.geojson", function(data) {
 
 
 //Census data
-d3.csv("data/NCensus_IncomeBracket_flat.csv", function(data) {
+d3.csv("data/NCensus_Income_flat.csv", function(data) {
 
     yegCensus = data;
 
@@ -32,15 +32,21 @@ function renderCharts(data, data2, geojson) {
     //Clean data use only the properties needed
     //This is data from NCensus_Income.csv
     dataParsed = data.map(function(d) {
-        // Column names from csv file:
-        // idx,name,LI_greater_than_MC,incomeBracket,
-        // pctInBracket,POINT_X,POINT_Y,Assessed_Value_Sum,Avg_Assessed_Value
+    // idx,name,census_type,census_type_value,pct_category,
+    //pct,LI_greater_than_MC,Pct_LowIncome_less_than_60K,
+    //Pct_MiddleClass_60K_to_150K,Pct_Over_150K,
+    //POINT_X,POINT_Y,Assessed_Value_Sum,Avg_Assessed_Value
 
         return {
             Neighbouhood: d.name,
             AvgAssessedPropVal: d.Avg_Assessed_Value,
-            incomeBracket: d.incomeBracket,
-            incomeBracketPct: d.pctInBracket,
+            census_type: d.census_type,
+            census_type_value: d.census_type_value,
+            pct_category: d.pct_category,
+            pct_val: d.pct,
+            Pct_LowIncome_less_than_60K: d.Pct_LowIncome_less_than_60K,
+            Pct_MiddleClass_60K_to_150K: d.Pct_MiddleClass_60K_to_150K,
+            Pct_Over_150K: d.Pct_Over_150K,
             Latitude: d.POINT_Y,
             Longitude: d.POINT_X
         };
@@ -72,19 +78,16 @@ function renderCharts(data, data2, geojson) {
     var avgPropValue = ndx.dimension(function(d) { return d.AvgAssessedPropVal; });
 
     var neighbourCoordsDim = ndx2.dimension(function(d) { return [d.Neighbouhood, d.Latitude, d.Longitude]; });
-    var neighbourIncomeDim = ndx.dimension(function(d) { return d.incomeBracket; });
+    var neighbourIncomeDim = ndx.dimension(function(d) { return d.pct_category; });
 
 
     //Define groups
-    var groupByPct = function(d) { return d.incomeBracketPct; };
+    var groupByPct = function(d) { return d.pct_val; };
     var groupByIncCat = function(d) { return d.LIgreaterThanMC };
     // var neighbourhoodGroup = neighbourhoodsDim.group().reduce(groupByIncCat);
-
-    // group the income bracket data
     var incomeGroup = neighbourIncomeDim.group().reduceSum(groupByPct);
 
     var coordsGroup = neighbourCoordsDim.group();
-
     var sumofAllInfractions = ndx.groupAll().reduceSum(groupByPct);
 
     var neighbourhoodGroupMap = neighbourhoodsDim2.group().reduceSum(groupByIncCat);
@@ -93,7 +96,7 @@ function renderCharts(data, data2, geojson) {
 
     //Define values (to be used by chart(s))
     //Got the colors from http://colorbrewer2.org
-    var pieColors = ['#e0ecf4','#9ebcda','#8856a7'];
+    var pieColors = ['#f7fcfd','#e5f5f9','#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45','#005824'];
     var mapColors =  ['#a8ddb5','#43a2ca'];
     var pieScaleColors = d3.scale.quantize().domain([0, pieColors.length - 1]).range(pieColors);
     var neighCoords = coordsGroup.all().map(function(d) {
@@ -149,15 +152,13 @@ function renderCharts(data, data2, geojson) {
         // var neighbourhoodsArray = neighbourhoodGroup.all();
         var neighbourhoodsArray = neighbourhoodGroupMap.all();
 
-        // var northEast = L.latLng(53.71784098729247, -113.170166015625);
-        // var southWest = L.latLng(53.39151868998397, -113.719482421875);
-        var northEast = L.latLng(53.787, -113.28);
-        var southWest = L.latLng(53.350, -113.71);
+        var northEast = L.latLng(53.71784098729247, -113.170166015625);
+        var southWest = L.latLng(53.39151868998397, -113.719482421875);
         var bounds = L.latLngBounds(southWest, northEast);
 
             return dcMap
                         .mapOptions({
-                            center:[53.548, -113.49],
+                            center:[53.5550, -113.4450],
                             zoom: 10,
                             scrollWheelZoom: true,
                             maxBounds: bounds,
@@ -171,9 +172,10 @@ function renderCharts(data, data2, geojson) {
                         .colorDomain([d3.min(neighbourhoodsArray, dc.pluck('value')),
                                     d3.max(neighbourhoodsArray, dc.pluck('value'))])
                         .colorAccessor(function(d) { return d.value; })
-                        .featureKeyAccessor(function(feature) { return feature.properties.name; });
-                        //.legend(dc.leafletLegend().position('bottomright'));
+                        .featureKeyAccessor(function(feature) { return feature.properties.name; })
+                        .legend(dc.leafletLegend().position('bottomright'));
     };
+
 
     //pie chart
     pie
@@ -181,8 +183,8 @@ function renderCharts(data, data2, geojson) {
         .group(incomeGroup)
         .radius(60)
         .innerRadius(40)
-        .cx(200)
-        .cy(140)
+        .cx(320)
+        .cy(90)
         .externalLabels(20)
         .label(function(d) {return ( d.value * 100 ).toFixed(1) + '%'; })
         .title(function(d) { return d.key + ': ' + ( d.value * 100 ).toFixed(1) + '%'; })
@@ -199,7 +201,7 @@ function renderCharts(data, data2, geojson) {
                 .append('tspan')
                 .text(function(d) { return d.name; })
                 .append('tspan')
-                .attr('x', 300)
+                .attr('x', 200)
                 .attr('text-anchor', 'end')
                 // format value to display as percentage instead of decimal
                 .text(function(d) { return ( d.data * 100 ).toFixed(1) + '%'; });
@@ -250,27 +252,7 @@ function renderCharts(data, data2, geojson) {
 
         OpenStreetMap_BlackAndWhite.addTo(map);
 
-        // Add a custom legend
-        // based on example at https://leafletjs.com/examples/choropleth/
-        var legend = L.control({position: 'bottomright'});
 
-        legend.onAdd = function (map) {
-
-            var div = L.DomUtil.create('div', 'info legend'),
-                //mapColors
-                labels = ['Greater Middle Class', 'Greater Low Income'];
-
-            // loop through our density intervals and generate a label with a colored square for each interval
-            for (var i = 0; i < mapColors.length; i++) {
-                div.innerHTML +=
-                    '<i style="background:' + mapColors[i] + '"></i> ' +
-                    labels[i] + '<br>' ;
-            }
-
-            return div;
-        };
-
-        legend.addTo(map);
         //after the neighbourhood selection has rendered add event listeners
         //listener to place marker and myinfo div on map
         neighbourSelections.on("renderlet.selectMenu", function(selectMenu, filter) {
