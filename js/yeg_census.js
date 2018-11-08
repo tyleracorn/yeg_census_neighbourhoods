@@ -128,11 +128,11 @@ function renderCharts(data, data2, geojson) {
     // var bubbleCloud = dc.bubbleCloud("#bubble-plot", groupName);
     // var totalDisplay = dc.numberDisplay("#number-stat", groupName);
     var neighbourSelections = dc.selectMenu("#select-container",groupName);
-    var recordCounter = dc.dataCount("#records-count", groupName);
+    // var recordCounter = dc.dataCount("#records-count", groupName);
 
-    //dataCount
-    recordCounter.dimension(ndx)
-                    .group(ndx.groupAll());
+    // //dataCount
+    // recordCounter.dimension(ndx)
+    //                 .group(ndx.groupAll());
                 // .html({some:'<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records.'});
 
     //selection menu
