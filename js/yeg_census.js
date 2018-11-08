@@ -51,6 +51,7 @@ function renderCharts(data, data2, geojson) {
         return {
             Neighbouhood: d.name,
             LIgreaterThanMC: d.LI_greater_than_MC,
+            LIpctInd: d.LI_pct_ind,
             Latitude: d.POINT_Y,
             Longitude: d.POINT_X
         }
@@ -78,6 +79,7 @@ function renderCharts(data, data2, geojson) {
     //Define groups
     var groupByPct = function(d) { return d.incomeBracketPct; };
     var groupByIncCat = function(d) { return d.LIgreaterThanMC };
+    var groupByLICat = function(d) { return d.LIpctInd };
     // var neighbourhoodGroup = neighbourhoodsDim.group().reduce(groupByIncCat);
 
     // group the income bracket data
@@ -87,14 +89,16 @@ function renderCharts(data, data2, geojson) {
 
     var sumofAllInfractions = ndx.groupAll().reduceSum(groupByPct);
 
-    var neighbourhoodGroupMap = neighbourhoodsDim2.group().reduceSum(groupByIncCat);
+    //var neighbourhoodGroupMap = neighbourhoodsDim2.group().reduceSum(groupByIncCat);
+    var neighbourhoodGroupMap = neighbourhoodsDim2.group().reduceSum(groupByLICat);
     var neighbourhoodGroup = neighbourhoodsDim.group().reduceSum(groupByPct);
 
 
     //Define values (to be used by chart(s))
     //Got the colors from http://colorbrewer2.org
     var pieColors = ['#e0ecf4','#9ebcda','#8856a7'];
-    var mapColors =  ['#a8ddb5','#43a2ca'];
+    //var mapColors =  ['#a8ddb5','#43a2ca'];
+    var mapColors =  ['#edf8fb','#b3cde3','#8c96c6','#8856a7','#810f7c']
     var pieScaleColors = d3.scale.quantize().domain([0, pieColors.length - 1]).range(pieColors);
     var neighCoords = coordsGroup.all().map(function(d) {
 
@@ -137,8 +141,10 @@ function renderCharts(data, data2, geojson) {
                         .multiple(false)
                         .numberVisible(11)
                         .controlsUseVisibility(true)
+                        .promptValue('Abbottsfield')
                         .title(function (d) {return d.key})
                         .filterDisplayed(function () {return true;}); // This should make sure values less than 1 are not removed from the selection menue
+
 
 
     //Leaflet Map
@@ -182,7 +188,7 @@ function renderCharts(data, data2, geojson) {
         .radius(60)
         .innerRadius(40)
         .cx(200)
-        .cy(140)
+        .cy(150)
         .externalLabels(20)
         .label(function(d) {return ( d.value * 100 ).toFixed(1) + '%'; })
         .title(function(d) { return d.key + ': ' + ( d.value * 100 ).toFixed(1) + '%'; })
@@ -232,7 +238,6 @@ function renderCharts(data, data2, geojson) {
 
     notGeojsonCharts.forEach(function(chart) {
         chart.on("filtered.notGeojson", function(chart, filter) {
-
             erase('div.leaflet-bottom.leaflet-right div');//remove previous choropleth legend
             choro();
         });
@@ -258,8 +263,8 @@ function renderCharts(data, data2, geojson) {
 
             var div = L.DomUtil.create('div', 'info legend'),
                 //mapColors
-                labels = ['Greater Middle Class', 'Greater Low Income'];
-
+                //labels = ['Greater Middle Class', 'Greater Low Income'];
+                labels = ['0% - 20%', '20% - 40%', '40% - 60%', '60% - 80%', '80% - 100%'];
             // loop through our density intervals and generate a label with a colored square for each interval
             for (var i = 0; i < mapColors.length; i++) {
                 div.innerHTML +=
@@ -273,6 +278,11 @@ function renderCharts(data, data2, geojson) {
         legend.addTo(map);
         //after the neighbourhood selection has rendered add event listeners
         //listener to place marker and myinfo div on map
+        neighbourSelections.on('pretransition', function() {
+            neighbourSelections.select('option[value=""]').remove();});
+            // neighbourSelections.on('pretransition', function() {
+            //     neighbourSelections.select('option[value="Abbottsfield"]')});
+        // neighbourSelections.replaceFilter([["Abbottsfield"]]);
         neighbourSelections.on("renderlet.selectMenu", function(selectMenu, filter) {
 
             //retrives the name by get method
@@ -290,9 +300,9 @@ function renderCharts(data, data2, geojson) {
                 erase('div.leaflet-top.leaflet-right div');//remove previous myinfo div
                 erase("div.leaflet-marker-pane img");//remove previous marker
                 erase("div.leaflet-shadow-pane img");//remove previous shade
+                erase("div.leaflet-legend img");//remove previous shade
             });
-
-
+            // .replaceFilter([["A"]]).redrawGroup();
             neighbourOptions.on('click.option', function(d){
 
                 //retrive coordinate of clicked neighbourhood
@@ -321,14 +331,16 @@ function renderCharts(data, data2, geojson) {
                 erase('div.leaflet-top.leaflet-right div');//remove previous myinfo div
                 erase("div.leaflet-marker-pane img");//remove previous marker
                 erase("div.leaflet-shadow-pane img");//remove previous shade
+                erase("div.leaflet-legend img");
 
                 info.addTo(map);
 
                 var marker = L.marker(markerLocation).addTo(map);//marker
             });
         });
-    });
 
+    });
+    // choro.filter([["Abbottsfield"]]).redrawGroup();
 
     //to remove duplicate or previous divs
     var erase = function(selector) { d3.select(selector).remove(); };
