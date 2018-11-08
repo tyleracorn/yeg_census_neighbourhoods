@@ -141,7 +141,8 @@ function renderCharts(data, data2, geojson) {
                         .multiple(false)
                         .numberVisible(11)
                         .controlsUseVisibility(true)
-                        .promptValue('Abbottsfield')
+                        .replaceFilter([["Abbottsfield"]])
+                        //.promptValue(function (d) {return d.key[0]})
                         .title(function (d) {return d.key})
                         .filterDisplayed(function () {return true;}); // This should make sure values less than 1 are not removed from the selection menue
 
@@ -279,10 +280,8 @@ function renderCharts(data, data2, geojson) {
         //after the neighbourhood selection has rendered add event listeners
         //listener to place marker and myinfo div on map
         neighbourSelections.on('pretransition', function() {
-            neighbourSelections.select('option[value=""]').remove();});
-            // neighbourSelections.on('pretransition', function() {
-            //     neighbourSelections.select('option[value="Abbottsfield"]')});
-        // neighbourSelections.replaceFilter([["Abbottsfield"]]);
+            neighbourSelections.select('option[value=""]').remove();}); // Remove the 'select all' from the menu
+
         neighbourSelections.on("renderlet.selectMenu", function(selectMenu, filter) {
 
             //retrives the name by get method
