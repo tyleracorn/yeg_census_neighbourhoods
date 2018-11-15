@@ -8,12 +8,11 @@
 
 ## Discussion
 
-I definitely learned a lot from this project in terms of how to code a spatial data visualization dashboard. However, as with any data visualization project, I had to learn about the data itself and make some assumptions. So first here are the map "goals"
+My personnel goal for this project was to learn how to create an interesting online spatial dashboard in D3. I definitely learned a lot in terms of how to code a spatial data visualization dashboard. However, as with any data visualization project, I had to learn about the data itself and make some assumptions. So first, the main message this dashboard is trying to answer is the following:
 
-* does a neighbourhood have a larger percentage of low income households or a larger percentage of middle class households
-* what is the distribution for each neighbourhood of low income, middle class, and high income households
+* Where do low income households tend to be located at in Edmonton, Ab, Canada
 
-The first major assumption made in preparing the data for visualization was what categorizes a household as either "low income", "middle class", or "high income". To be considered middle class it seems like you need to make above the median income for your area [<sup>1</sup>](https://www.macleans.ca/economy/money-economy/are-you-in-the-middle-class/). In Edmonton that equates to an income of $70,080 (before tax) or $61,330 (after tax)[<sup>2</sup>](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110001501&pickMembers%5B0%5D=1.35). A better and more detailed analyses is by using the [Low Income Measure After Tax](https://www150.statcan.gc.ca/n1/pub/75f0002m/75f0002m2018002-eng.htm). However the census data source I am using for this basic project doesn't include enough data to calculate the LIM-AT. So for this project the $60K is the entry point into the "middle class" category. That is based on the income categories available in the data source.
+The first major assumption made in preparing the data for visualization was what categorizes a household as either "low income", "middle class", or "high income". To be considered middle class it seems like you need to make above the median income for your area [<sup>1</sup>](https://www.macleans.ca/economy/money-economy/are-you-in-the-middle-class/). In Edmonton that equates to an income of $70,080 (before tax) or $61,330 (after tax)[<sup>2</sup>](https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1110001501&pickMembers%5B0%5D=1.35). A better and more detailed analyses is by using the [Low Income Measure After Tax](https://www150.statcan.gc.ca/n1/pub/75f0002m/75f0002m2018002-eng.htm). However the census data source I am using for this basic project doesn't include enough data to calculate the LIM-AT. So for this project the assumption was made that $60K is the entry point into the "middle class" category. That is based on the income bins available in the data source.
 
 The upper range of middle class is less well defined. Looking at the household income for all of Edmonton we can see the following breakdown of values
 
@@ -33,7 +32,7 @@ For the purpose of this project the "high income" is meant to show the top 20% o
 ### Neighbourhood Selection Option
 
 - [x] use dc.selectionMenue to select a neighbourhood to highlight
-- [ ] remove the default "select all" option since that doesn't make sense with this type of data
+- [x] remove the default "select all" option since that doesn't make sense with this type of data
 
 ### Pie Chart showing the breakdown of Household income brackets
 
@@ -67,4 +66,4 @@ The census data comes from the city of Edmonton open data portal
 
 ## Acknowlegdments
 
-I've been wanting to do a project like this for awhile but wasn't sure where to start until I came across [Mikel Otis ByLaw Infractions Dashboard I](https://github.com/Edmonton-Open-Data/Edmonton-Bylaw-Infractions-I/blob/master/README.md#bylaw-infractions-dashboard-i). I ran into Michael Otis at Startup Edmonton and saw some his dashboards online where he has been playing around with some of Edmonton's Open Data. I stole heavily from his code/work as a starting point to figure this all out since I don't know JS. I'm pretty much a python guy! If you want to check out some of Mikel's other stuff then head over to his github page. [Michael Otis PortFolio](https://mikelotis.github.io)
+I've been wanting to do a project like this for awhile but wasn't sure where to start until I came across [Mikel Otis ByLaw Infractions Dashboard I](https://github.com/Edmonton-Open-Data/Edmonton-Bylaw-Infractions-I/blob/master/README.md#bylaw-infractions-dashboard-i). I ran into Michael Otis at Startup Edmonton and saw some his dashboards online where he has been playing around with some of Edmonton's Open Data. I stole heavily from his code/work as a starting point to figure this all out since I don't know JS. I'm pretty much a python guy! If you want to check out some of Mikel's other stuff then head over to his github page, [Michael Otis PortFolio](https://mikelotis.github.io).
